@@ -1,19 +1,22 @@
 import { describe, expect, test, vi } from "vitest";
+import type { Response } from "express";
 import { respondWithError, respondWithJSON } from "../api/json.js";
 
 describe("respondWithJSON", () => {
   test("responds with JSON for object payload", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
 
     const payload = { message: "test" };
     const code = 200;
 
-    respondWithJSON(mockRes as any, code, payload);
+    respondWithJSON(mockRes as unknown as Response, code, payload);
 
     expect(mockRes.setHeader).toHaveBeenCalledWith(
       "Content-Type",
@@ -27,15 +30,17 @@ describe("respondWithJSON", () => {
   test("responds with JSON for string payload", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
 
     const payload = "test string";
     const code = 200;
 
-    respondWithJSON(mockRes as any, code, payload);
+    respondWithJSON(mockRes as unknown as Response, code, payload);
 
     expect(mockRes.setHeader).toHaveBeenCalledWith(
       "Content-Type",
@@ -49,15 +54,17 @@ describe("respondWithJSON", () => {
   test("throws error for invalid payload", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
 
     const payload = 123; // number, invalid
     const code = 200;
 
-    expect(() => respondWithJSON(mockRes as any, code, payload)).toThrow(
+    expect(() => respondWithJSON(mockRes as unknown as Response, code, payload)).toThrow(
       "Payload must be an object or a string",
     );
   });
@@ -67,15 +74,17 @@ describe("respondWithError", () => {
   test("responds with error JSON without logging", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
 
     const code = 400;
     const message = "Bad Request";
 
-    respondWithError(mockRes as any, code, message);
+    respondWithError(mockRes as unknown as Response, code, message);
 
     expect(mockRes.setHeader).toHaveBeenCalledWith(
       "Content-Type",
@@ -91,8 +100,10 @@ describe("respondWithError", () => {
   test("responds with error JSON and logs error", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
 
@@ -102,7 +113,7 @@ describe("respondWithError", () => {
     const message = "Internal Server Error";
     const logError = new Error("Test error");
 
-    respondWithError(mockRes as any, code, message, logError);
+    respondWithError(mockRes as unknown as Response, code, message, logError);
 
     expect(consoleLogSpy).toHaveBeenCalledWith("Test error");
     expect(mockRes.setHeader).toHaveBeenCalledWith(
@@ -121,8 +132,10 @@ describe("respondWithError", () => {
   test("logs string error", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
 
@@ -132,7 +145,7 @@ describe("respondWithError", () => {
     const message = "Error";
     const logError = "String error";
 
-    respondWithError(mockRes as any, code, message, logError);
+    respondWithError(mockRes as unknown as Response, code, message, logError);
 
     expect(consoleLogSpy).toHaveBeenCalledWith("String error");
 
@@ -142,8 +155,10 @@ describe("respondWithError", () => {
   test("logs unknown error as string", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
 
@@ -153,7 +168,7 @@ describe("respondWithError", () => {
     const message = "Error";
     const logError = { custom: "error" };
 
-    respondWithError(mockRes as any, code, message, logError);
+    respondWithError(mockRes as unknown as Response, code, message, logError);
 
     expect(consoleLogSpy).toHaveBeenCalledWith("[object Object]");
 
@@ -165,13 +180,15 @@ describe("respondWithJSON (edge cases)", () => {
   test("throws error for non-object/string payload", () => {
     const mockRes = {
       setHeader: vi.fn(),
-      status: vi.fn().mockReturnThis(),
-      send: vi.fn().mockReturnThis(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      status: vi.fn().mockReturnThis() as any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
-    expect(() => respondWithJSON(mockRes as any, 200, 42)).toThrow();
-    expect(() => respondWithJSON(mockRes as any, 200, true)).toThrow();
-    expect(() => respondWithJSON(mockRes as any, 200, undefined)).toThrow();
-    expect(() => respondWithJSON(mockRes as any, 200, null)).not.toThrow(); // null is typeof object
+    expect(() => respondWithJSON(mockRes as unknown as Response, 200, 42)).toThrow();
+    expect(() => respondWithJSON(mockRes as unknown as Response, 200, true)).toThrow();
+    expect(() => respondWithJSON(mockRes as unknown as Response, 200, undefined)).toThrow();
+    expect(() => respondWithJSON(mockRes as unknown as Response, 200, null)).not.toThrow(); // null is typeof object
   });
 });

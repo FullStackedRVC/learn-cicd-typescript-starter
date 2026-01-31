@@ -23,7 +23,7 @@ jobs:
       - name: Run tests
         run: npm run test
 
-  Style:
+  style:
     name: Style
     runs-on: ubuntu-latest
 
@@ -40,3 +40,5 @@ jobs:
         run: npm ci --legacy-peer-deps
       - name: Run format check
         run: npm run format:check
+      - name: Run linter
+        run: npm run lint

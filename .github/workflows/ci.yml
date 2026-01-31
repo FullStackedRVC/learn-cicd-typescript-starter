@@ -24,7 +24,7 @@ jobs:
         run: npm run test
 
   Style:
-    name: Format Check
+    name: Style
     runs-on: ubuntu-latest
 
     steps:
@@ -38,5 +38,5 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
-      - name: Run tests
+      - name: Run format check
         run: npm run format:check

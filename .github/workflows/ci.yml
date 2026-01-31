@@ -23,7 +23,7 @@ jobs:
       - name: Run tests
         run: npm run test
 
-  format:
+  Style:
     name: Format Check
     runs-on: ubuntu-latest
 

@@ -15,7 +15,10 @@ describe("respondWithJSON", () => {
 
     respondWithJSON(mockRes as any, code, payload);
 
-    expect(mockRes.setHeader).toHaveBeenCalledWith("Content-Type", "application/json");
+    expect(mockRes.setHeader).toHaveBeenCalledWith(
+      "Content-Type",
+      "application/json",
+    );
     expect(mockRes.status).toHaveBeenCalledWith(code);
     expect(mockRes.send).toHaveBeenCalledWith(JSON.stringify(payload));
     expect(mockRes.end).toHaveBeenCalled();
@@ -34,7 +37,10 @@ describe("respondWithJSON", () => {
 
     respondWithJSON(mockRes as any, code, payload);
 
-    expect(mockRes.setHeader).toHaveBeenCalledWith("Content-Type", "application/json");
+    expect(mockRes.setHeader).toHaveBeenCalledWith(
+      "Content-Type",
+      "application/json",
+    );
     expect(mockRes.status).toHaveBeenCalledWith(code);
     expect(mockRes.send).toHaveBeenCalledWith(JSON.stringify(payload));
     expect(mockRes.end).toHaveBeenCalled();
@@ -51,7 +57,9 @@ describe("respondWithJSON", () => {
     const payload = 123; // number, invalid
     const code = 200;
 
-    expect(() => respondWithJSON(mockRes as any, code, payload)).toThrow("Payload must be an object or a string");
+    expect(() => respondWithJSON(mockRes as any, code, payload)).toThrow(
+      "Payload must be an object or a string",
+    );
   });
 });
 
@@ -69,9 +77,14 @@ describe("respondWithError", () => {
 
     respondWithError(mockRes as any, code, message);
 
-    expect(mockRes.setHeader).toHaveBeenCalledWith("Content-Type", "application/json");
+    expect(mockRes.setHeader).toHaveBeenCalledWith(
+      "Content-Type",
+      "application/json",
+    );
     expect(mockRes.status).toHaveBeenCalledWith(code);
-    expect(mockRes.send).toHaveBeenCalledWith(JSON.stringify({ error: message }));
+    expect(mockRes.send).toHaveBeenCalledWith(
+      JSON.stringify({ error: message }),
+    );
     expect(mockRes.end).toHaveBeenCalled();
   });
 
@@ -92,9 +105,14 @@ describe("respondWithError", () => {
     respondWithError(mockRes as any, code, message, logError);
 
     expect(consoleLogSpy).toHaveBeenCalledWith("Test error");
-    expect(mockRes.setHeader).toHaveBeenCalledWith("Content-Type", "application/json");
+    expect(mockRes.setHeader).toHaveBeenCalledWith(
+      "Content-Type",
+      "application/json",
+    );
     expect(mockRes.status).toHaveBeenCalledWith(code);
-    expect(mockRes.send).toHaveBeenCalledWith(JSON.stringify({ error: message }));
+    expect(mockRes.send).toHaveBeenCalledWith(
+      JSON.stringify({ error: message }),
+    );
     expect(mockRes.end).toHaveBeenCalled();
 
     consoleLogSpy.mockRestore();
@@ -141,9 +159,7 @@ describe("respondWithError", () => {
 
     consoleLogSpy.mockRestore();
   });
-
 });
-
 
 describe("respondWithJSON (edge cases)", () => {
   test("throws error for non-object/string payload", () => {
@@ -159,4 +175,3 @@ describe("respondWithJSON (edge cases)", () => {
     expect(() => respondWithJSON(mockRes as any, 200, null)).not.toThrow(); // null is typeof object
   });
 });
-

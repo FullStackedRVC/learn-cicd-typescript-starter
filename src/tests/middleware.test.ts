@@ -80,7 +80,9 @@ describe("middlewareAuth", () => {
 
   test("should respond with 500 error when authentication throws an error", async () => {
     (getAPIKey as ReturnType<typeof vi.fn>).mockReturnValue("testkey");
-    (getUser as ReturnType<typeof vi.fn>).mockRejectedValue(new Error("Database error"));
+    (getUser as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new Error("Database error"),
+    );
     const req = { headers: {} } as unknown as Request;
     const res = {} as unknown as Response;
 

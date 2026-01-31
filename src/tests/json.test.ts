@@ -64,9 +64,9 @@ describe("respondWithJSON", () => {
     const payload = 123; // number, invalid
     const code = 200;
 
-    expect(() => respondWithJSON(mockRes as unknown as Response, code, payload)).toThrow(
-      "Payload must be an object or a string",
-    );
+    expect(() =>
+      respondWithJSON(mockRes as unknown as Response, code, payload),
+    ).toThrow("Payload must be an object or a string");
   });
 });
 
@@ -186,9 +186,17 @@ describe("respondWithJSON (edge cases)", () => {
       send: vi.fn().mockReturnThis() as any,
       end: vi.fn(),
     };
-    expect(() => respondWithJSON(mockRes as unknown as Response, 200, 42)).toThrow();
-    expect(() => respondWithJSON(mockRes as unknown as Response, 200, true)).toThrow();
-    expect(() => respondWithJSON(mockRes as unknown as Response, 200, undefined)).toThrow();
-    expect(() => respondWithJSON(mockRes as unknown as Response, 200, null)).not.toThrow(); // null is typeof object
+    expect(() =>
+      respondWithJSON(mockRes as unknown as Response, 200, 42),
+    ).toThrow();
+    expect(() =>
+      respondWithJSON(mockRes as unknown as Response, 200, true),
+    ).toThrow();
+    expect(() =>
+      respondWithJSON(mockRes as unknown as Response, 200, undefined),
+    ).toThrow();
+    expect(() =>
+      respondWithJSON(mockRes as unknown as Response, 200, null),
+    ).not.toThrow(); // null is typeof object
   });
 });
